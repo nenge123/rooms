@@ -53,7 +53,7 @@ class mySQLite{
         if(!response){
             response = await fetch(url).catch(e=>undefined);
             if(response){
-                cache.put(url,response);
+                cache.put(url,response.clone());
             }
         }
         return response;
