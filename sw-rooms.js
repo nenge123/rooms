@@ -51,7 +51,7 @@ class mySQLite{
         let cache = await caches.open(this.cachename);
         let response = await cache.match(url);
         if(!response){
-            response = await fetch(url).catch(e=>false);
+            response = await fetch(url).catch(e=>undefined);
             if(response){
                 cache.put(url,response);
             }
@@ -252,8 +252,8 @@ class mySQLite{
         return response;
     }
     async ReadPage(url,request){
-        if(url.indexOf('assets')!==-1||(url.indexOf('?')===-1)&&url!=='/'){
-            return fetch(request);
+        if(url.indexOf('assets/')!==-1||(url.indexOf('?')===-1)&&url!=='/'){
+            return await this.getResponse(request);
         }
         let search = url.split('?');
         let params = new URLSearchParams(search&&search[1]?search[1]:undefined);
@@ -318,6 +318,9 @@ Object.entries({
         }
         if(data=='install'){
             await MySQL.ready;
+            await MySQL.getResponse('/assets/js/rooms.js');
+            await MySQL.getResponse('/assets/img/zan.jpg');
+            await MySQL.getResponse('/assets/css/style.css');
             await MySQL.getResponse('/assets/template-home.html')
             source.postMessage('ok');
             return;
