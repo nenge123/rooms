@@ -94,12 +94,13 @@ class mySQLite{
         });
     }
     async open(){
+        await this.ready;
         let cache = await caches.open(this.cachename);
         let response = await cache.match(this.sqlfile).catch(e=>undefined);
         if(response&&response.status){
             response = new Uint8Array(await response.arrayBuffer());
         }
-        this.db = new this.SQL.Database(response||undefined);
+        this.db = response? new this.SQL.Database(response):new this.SQL.Database();
         if(!response||!response.byteLength){
             await this.creatTable();
             await this.save(cache)
@@ -154,7 +155,7 @@ class mySQLite{
         if(this.db){
             let sqlarr = [];
             let sqlstr = [];
-            let ordertext = '`title` asc';
+            let ordertext = '`title` DESC';
             let tag = params.get('tag')||'';
             let search = params.get('search')||'';
             let order = params.get('order');
@@ -196,8 +197,9 @@ class mySQLite{
                 for(let items of data){
                     let newitem = {
                         id:items['gameID'],
+                        type:items['type'],
                         name:items['title'],
-                        img:items['titleScreenImage']?'https://images.zaixianwan.app/'+items['titleScreenImage']:'/assets/image/nofile.jpg',
+                        img:items['titleScreenImage']?'https://images.zaixianwan.app/'+items['titleScreenImage']:'/assets/img/zan.jpg',
                         url:'https://binary.zaixianwan.app/'+items['binary'],
                         language:items['language'],
                         region:items['region']
@@ -292,7 +294,7 @@ Object.entries({
         let url = request.url.replace(location.origin,'');
         if(url.charAt(0)==='/'){
             return event.respondWith(MySQL.ReadPage(url,request));
-        }else{
+        }else if(url.indexOf('images.zaixianwan.app')!==-1){
             return event.respondWith(MySQL.ReadFile(request));
         }
         return false;
@@ -315,7 +317,8 @@ Object.entries({
             source.postMessage({file:await MySQL.export()});
         }
         if(data=='install'){
-            await this.ready;
+            await MySQL.ready;
+            await MySQL.getResponse('/assets/template-home.html')
             source.postMessage('ok');
             return;
         }
