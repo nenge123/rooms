@@ -24,10 +24,12 @@ layout: default
             <ul class="sql-item-list">
                 <% for(entry of list){ %>
                     <li>
-                        <a href="<%- entry.url %>" data-name="<%- encodeURI(entry.name) -%>" target="_blank">
-                            <img src="<%- entry.img %>">
-                            <p><%- entry.name %></p>
-                        </a>
+                        <img src="<%- entry.img %>">
+                        <p style="color:#fff;"><%- entry.name %></p>
+                        <p style="color:#fff;">
+                            <b style="color:coral"><%- entry.type %></b>
+                        <a href="<%- entry.url %>" data-name="<%- encodeURI(entry.name) -%>" target="_blank">下载</a> | 
+                        <a href="https://zaixianwan.app/games/<%- entry.id %>" data-name="<%- encodeURI(entry.name) -%>" target="_blank">试玩?</a></p>
                     </li>
                 <% } %>
             </ul>
@@ -46,5 +48,9 @@ layout: default
         <% }else{ %>
             <div class="result-error"><a href="/index.html"><%- error %></a></div>
         <% } %>
+        <h6>nds bios</h6>
+        <a href="https://nenge.net/emulator/bios/bios7.bin"  target="_blank">bios7.bin</a>
+        <a href="https://nenge.net/emulator/bios/bios9.bin"  target="_blank">bios9.bin</a>
+        <a href="https://nenge.net/emulator/bios/firmware.bin"  target="_blank">firmware.bin</a>
     </div>
 </main>
