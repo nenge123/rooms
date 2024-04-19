@@ -7,6 +7,7 @@ class NengeCommon{
                 elm&&elm.addEventListener('click',function(){
                     T.showWin('#admin-act')
                 });
+                return ;
                 document.addEventListener('gesturestart',function(e){
                     e.preventDefault();
                 });
