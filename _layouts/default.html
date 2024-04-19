@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="{{ page.lang | default: site.lang | default: " zh-CN" }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0,width=device-width,user-scalable=no">
+  <meta name="x-content-type-options" content="nosniff" />
+  <meta name="renderer" content="webkit">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="Content-Language" contect="{{ page.lang | default: site.lang | default: "zh-CN" }}">
+  <title>{%- if page.title -%}{{ page.title}}{%- else -%}<%- title -%>{%- endif -%}</title>
+  <link rel="stylesheet" href="/assets/css/style.css" />
+  <script id="common-loader" type="text/javascript" src="/assets/js/rooms.js"></script>
+</head>
+<body>
+  <header id="header">
+    <nav>
+      <h1><a href="/">首页</a></h1>
+      <button class="menu-toggle" title="菜单" popovertarget="#" popovertargetaction="toggle">
+        <span></span>
+      </button>
+      <ol id="menu-nav">
+        <li>
+          <a class="home" href="/">能哥网</a>
+        </li>
+      </ol>
+    </nav>
+  </header>
+  {{ content }}
+  <footer id="footer" class="h-card">
+    <p>
+      <span>Github Pageus:</span>
+      <a href="//github.com/nenge123/pwa-video">Nenge.net</a>
+    </p>
+    <p
+      <span>&copy; 2021-2024 &bull; All Rights Reserved.</span>
+      <a href="#">Jekyll</a>
+    </p>
+    <p class="c-red">由于使用访问即缓存模式<br>IOS切记添加书签到主屏幕!内存不够用可以删除书签重新添加!</p>
+  </footer>
+  <dialog id="pwa-register" class="wbox info" popover>
+    <div class="title">
+        <b>提醒</b>
+        <button class="close" onclick="this.parentNode.parentNode.hidePopover();"></button>
+    </div>
+    <div class="content">ServiceWorker加载成功!1秒后刷新!</div>
+  </dialog>
+  <dialog id="admin-act" class="wbox" popover>
+      <div class="title">管理中心</div>
+      <div class="content">
+        <button onclick="N.export(this)">分享你的数据库</button>
+        <button onclick="N.importFile(this)">导入他人数据库</button>
+        <button onclick="N.importJSON(this)">导入JSON</button>
+          <h3>喜欢就点个赞~⛏</h3>
+          <div style="text-align:center;">
+            <img src="/assets/img/zan.jpg">
+          </div>
+        </div>
+      </div>
+  </dialog>
+  </body>
+</body>
+</html>
