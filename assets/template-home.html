@@ -40,7 +40,7 @@ layout: default
             <h3>标签云</h3>
             <nav class="tag-list">
             <% for(let entry of navtags){ %>
-                <a href="/?/1/DESC/<%- encodeURI(entry[0]) %>/"><%= entry[0] %>(<%- entry[1] %>)</a>
+                <a href="/?search=<%- search %>&tag=<%- encodeURI(entry[0]) %>"><%= entry[0] %>(<%- entry[1] %>)</a>
             <% } %>
             </nav>
         <% }else{ %>
