@@ -95,12 +95,12 @@ class mySQLite{
     }
     async open(){
         let cache = await caches.open(this.cachename);
-        let response = await cache.match(this.sqlfile);
-        if(response){
+        let response = await cache.match(this.sqlfile).catch(e=>undefined);
+        if(response&&response.status){
             response = new Uint8Array(await response.arrayBuffer());
         }
         this.db = new this.SQL.Database(response||undefined);
-        if(!response||response==undefined){
+        if(!response||!response.byteLength){
             await this.creatTable();
             await this.save(cache)
         }
@@ -260,7 +260,7 @@ class mySQLite{
             title:'首页',
             search:params.get('search')||'',
             tagname:params.get('tag')||'',
-            baseurl:'search='+(params.get('search')||'')+'&tag='+(params.get('tag')||'')+'&page=',
+            baseurl:'?search='+(params.get('search')||'')+'&tag='+(params.get('tag')||'')+'&page=',
             list:[],
             topnav:[],
             navpage:[],
@@ -271,7 +271,7 @@ class mySQLite{
         }
         if(kk&&kk.constructor===Object)Object.assign(templates,kk);
         console.log(kk);
-        let response = await(await fetch('/assets/template-home.html')).text();
+        let response = await(await this.getResponse('/assets/template-home.html')).text();
         response =  ejs.compile(response)(templates);
         ejs.clearCache();
         return new Response(new Blob([response],{type:'text/html;charset=utf-8'}));
